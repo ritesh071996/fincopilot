@@ -49,13 +49,30 @@ WITHOUT torch, then load offline with `HF_HUB_OFFLINE=1` / `TRANSFORMERS_OFFLINE
 under `C:\Users\LENOVO\.cache\huggingface`.
 
 ## LLM backend choice (2026-06-12)
-Using **OpenAI** (user has a paid key). Model `gpt-4o-mini` via litellm; key in
-`.env` as `OPENAI_API_KEY` (gateway sets it into env for litellm). Chosen after
-Gemini free-tier walls (5 req/min; 2.5-flash only 20 req/DAY) made a multi-call
-agent + eval impractical. Gemini key still in `.env` as a fallback. Gateway
-retries transient errors (429/503/etc). Embeddings stay local (sentence-transformers).
+**Demo runs on Gemini free tier**, model `gemini/gemini-2.5-flash-lite` (its own
+daily quota bucket + higher limit + faster than 2.5-flash, which is capped at
+only 20 req/DAY and gets exhausted fast by the multi-call agent). Key in `.env`
+as `GEMINI_API_KEY`. **OpenAI key was REMOVED** at user's request (cost concern;
+demo-only use). For heavier/eval use, OpenAI gpt-4o-mini is more reliable but
+costs (user declined). Gateway retries transient errors (429/503). Embeddings
+local. NOTE: free tier still limited — pace demo questions; ~2-4 calls each.
 
-## Status (2026-06-12)
-Week 0–1 scaffold complete. **Next:** download 5 public RBI PDFs into
-`data/corpus/`, write ~20 eval questions in `eval/questions.yaml`, then Week 2–3
-thin RAG slice (question → cited answer).
+## Status (2026-06-12) — WORKING PROTOTYPE (paused here by choice)
+Full end-to-end compliance copilot works in the Streamlit UI. Eval scorecard:
+100% accuracy / citations / refusal (14 answerable + 4 refuse). Committed at
+git `8a31528`.
+
+**Done — 5 of the 7 technologies:** LangChain, LangGraph (agent: retrieve→draft→
+review→amend), RAG (Chroma, local embeddings), LLM Evaluation (harness+scorecard),
+LLM Gateway (litellm→OpenAI gpt-4o-mini, retries). Guardrails = half (output
+guardrail done; input guardrail not built). **Vectorless RAG = deliberately
+dropped** (not needed; vector RAG works).
+
+**Optional remaining (user said "enough" for now):** (1) retrieval recall fix —
+known weakness: DLG-cap answer depends on question phrasing (top_k 5→8-10 or a
+stronger embedding model); (2) input guardrail 8c (scope/injection); (3) polish:
+clickable citations, harder eval questions.
+
+**Run it:** two terminals from `C:\fincopilot` (venv active) — backend
+`uvicorn app.main:app`, UI `streamlit run ui/streamlit_app.py`. Needs
+OPENAI_API_KEY in `.env`. `scratch_embed_test.py` is a throwaway, safe to delete.
