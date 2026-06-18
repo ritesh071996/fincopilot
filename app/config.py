@@ -35,8 +35,8 @@ class Settings(BaseSettings):
     # We route every model call through LiteLLM. These names are the model
     # the gateway should use; swap them in .env, not in code.
     # NOTE: defaults pinned during Week 6-7 (gateway) once verified current.
-    llm_synthesis_model: str = "gemini/gemini-2.5-flash"   # litellm model string (writes the answer)
-    llm_extraction_model: str = "gemini/gemini-2.5-flash"  # cheaper/extraction (same for now)
+    llm_synthesis_model: str = "gpt-4o-mini"   # OpenAI via litellm
+    llm_extraction_model: str = "gpt-4o-mini"  # same for now
     embedding_model: str = "sentence-transformers/all-MiniLM-L6-v2"
 
     openai_api_key: str = ""        # legacy; unused now

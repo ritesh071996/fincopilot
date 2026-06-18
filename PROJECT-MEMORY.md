@@ -49,9 +49,11 @@ WITHOUT torch, then load offline with `HF_HUB_OFFLINE=1` / `TRANSFORMERS_OFFLINE
 under `C:\Users\LENOVO\.cache\huggingface`.
 
 ## LLM backend choice (2026-06-12)
-Answer-generation LLM = **Google Gemini (free tier)**, called via **litellm** (the
-gateway pillar), model string `gemini/gemini-1.5-flash`, key in `.env` as
-`GEMINI_API_KEY`. Embeddings stay local. Get a free key at aistudio.google.com.
+Using **OpenAI** (user has a paid key). Model `gpt-4o-mini` via litellm; key in
+`.env` as `OPENAI_API_KEY` (gateway sets it into env for litellm). Chosen after
+Gemini free-tier walls (5 req/min; 2.5-flash only 20 req/DAY) made a multi-call
+agent + eval impractical. Gemini key still in `.env` as a fallback. Gateway
+retries transient errors (429/503/etc). Embeddings stay local (sentence-transformers).
 
 ## Status (2026-06-12)
 Week 0–1 scaffold complete. **Next:** download 5 public RBI PDFs into

@@ -1,27 +1,107 @@
 # FinCopilot evaluation set
 #
-# These are the questions we measure the system against (see docs/01-goals.md).
-# Write ~20 real questions answerable from the RBI corpus. Each needs:
-#   - question:       what a compliance officer would actually ask
-#   - expected:       the correct answer (short, in your own words)
-#   - source:         the exact document/section that supports it (the citation)
+# Each question has:
+#   - question:       what a compliance officer might actually ask
+#   - expected:       the correct answer (grounded in the RBI corpus)
+#   - source:         the document + paragraph/page that supports it
 #   - should_refuse:  true for questions NOT answerable from the corpus
-#                     (we MUST get refusals right — see the metrics table)
+#                     (refusing these correctly is half the product)
 #
-# Fill this in during Week 0-1. Examples below show the shape.
+# Starter set drafted from the corpus. REVIEW each expected answer against the
+# source before trusting the scores. Expand toward ~20+ over time.
 
-- question: "Does a lender need a written agreement with a Lending Service Provider (LSP)?"
-  expected: "Yes — the RBI Digital Lending Guidelines require a contractual/outsourcing agreement governing the LSP arrangement."
-  source: "RBI Digital Lending Guidelines"
+# ---------- Digital Lending Directions, 2025 ----------
+
+- question: "Is a written agreement required between a Regulated Entity (RE) and a Lending Service Provider (LSP) for digital lending?"
+  expected: "Yes. Digital lending involving an LSP must be carried out under a contractual agreement that clearly defines the roles, rights and obligations of each party."
+  source: "RBI (Digital Lending) Directions, 2025, para 5, p.5"
   should_refuse: false
 
 - question: "Can loan disbursals be routed through the LSP's bank account?"
-  expected: "No — disbursals must flow directly between the borrower's and the Regulated Entity's accounts, not through the LSP/pool account."
-  source: "RBI Digital Lending Guidelines"
+  expected: "No. Disbursal must always be made into the borrower's bank account; in no case to a third-party account including the LSP's, except limited exceptions (statutory/regulatory mandate, co-lending between REs, and specific end-use disbursed directly to the end-beneficiary)."
+  source: "RBI (Digital Lending) Directions, 2025, para 9, p.9"
   should_refuse: false
 
-# Example of an out-of-scope question we must REFUSE (not in the corpus):
-- question: "What is the current repo rate?"
-  expected: "Refuse — not answerable from the digital lending / KYC corpus."
+- question: "What is the minimum cooling-off period for a digital loan?"
+  expected: "It is set by the Board of the RE in its loan policy, but it shall not be less than one day. During it the borrower can exit by paying principal plus proportionate APR without penalty."
+  source: "RBI (Digital Lending) Directions, 2025, para 10, p.10"
+  should_refuse: false
+
+- question: "Where must REs store borrowers' data, and what happens if the data is processed outside India?"
+  expected: "All data must be stored only on servers located within India. If processed outside India, it must be deleted from the servers outside India and brought back to India within 24 hours of processing."
+  source: "RBI (Digital Lending) Directions, 2025, para 13, p.12"
+  should_refuse: false
+
+- question: "What is the cap on a Default Loss Guarantee (DLG) cover?"
+  expected: "The DLG cover on any outstanding portfolio shall not exceed five per cent (5%) of the total amount disbursed out of that loan portfolio at any given time."
+  source: "RBI (Digital Lending) Directions, 2025, para 23, p.17"
+  should_refuse: false
+
+- question: "Who is eligible to provide a Default Loss Guarantee (DLG) to an RE?"
+  expected: "Only an LSP, or another RE engaged as an LSP. The LSP providing the DLG must be incorporated as a company under the Companies Act, 2013."
+  source: "RBI (Digital Lending) Directions, 2025, para 18, p.15"
+  should_refuse: false
+
+- question: "Within what period must an RE invoke a DLG?"
+  expected: "Within a maximum overdue period of 120 days, unless the loan dues are made good by the borrower before that."
+  source: "RBI (Digital Lending) Directions, 2025, para 26, p.18"
+  should_refuse: false
+
+- question: "Does outsourcing work to an LSP reduce the RE's responsibility for the LSP's actions?"
+  expected: "No. An outsourcing agreement with an LSP shall in no manner dilute or absolve the RE of its obligations; the RE remains fully responsible and liable for all acts and omissions of the LSP."
+  source: "RBI (Digital Lending) Directions, 2025, para 5, p.6"
+  should_refuse: false
+
+- question: "Must lending done through digital lending apps be reported to Credit Information Companies (CICs)?"
+  expected: "Yes. Any lending done through the RE's DLAs or its LSPs' DLAs must be reported to CICs irrespective of its nature or tenor."
+  source: "RBI (Digital Lending) Directions, 2025, para 16, p.13"
+  should_refuse: false
+
+- question: "Can a Digital Lending App access a borrower's phone contacts and call logs?"
+  expected: "No. Data collection must be need-based with prior explicit consent; DLAs must not access phone resources like files/media, contact list, call logs or telephony functions. A one-time access to camera, microphone or location is allowed only for onboarding/KYC with explicit consent."
+  source: "RBI (Digital Lending) Directions, 2025, para 12, p.11"
+  should_refuse: false
+
+- question: "Where can a borrower escalate if the RE does not resolve a digital lending complaint within 30 days?"
+  expected: "The borrower can lodge a complaint on RBI's Complaint Management System (CMS) portal under the Reserve Bank-Integrated Ombudsman Scheme (RB-IOS)."
+  source: "RBI (Digital Lending) Directions, 2025, para 11, p.11"
+  should_refuse: false
+
+# ---------- KYC Master Direction ----------
+
+- question: "How often must KYC be periodically updated for high-risk customers?"
+  expected: "At least once every two years for high-risk customers, under a risk-based approach (medium- and low-risk customers are updated less frequently)."
+  source: "RBI KYC Master Direction, para 38, p.39"
+  should_refuse: false
+
+- question: "What are the transaction limits of a 'Small Account'?"
+  expected: "Aggregate credits in a financial year not exceeding rupees one lakh; aggregate withdrawals and transfers in a month not exceeding rupees ten thousand; and balance at any point of time not exceeding rupees fifty thousand."
+  source: "RBI KYC Master Direction, para 23, p.32"
+  should_refuse: false
+
+- question: "Which documents qualify as an 'Officially Valid Document' (OVD) for KYC?"
+  expected: "The passport, the driving licence, proof of possession of Aadhaar number, the Voter's Identity Card issued by the Election Commission, the NREGA job card signed by a State Government officer, and the National Population Register letter."
+  source: "RBI KYC Master Direction, Definitions, p.8"
+  should_refuse: false
+
+# ---------- Out-of-scope: the system MUST refuse these ----------
+
+- question: "What is the current RBI repo rate?"
+  expected: "Refuse - not answerable from the digital lending / KYC corpus."
+  source: ""
+  should_refuse: true
+
+- question: "What are the income tax slab rates for individuals this year?"
+  expected: "Refuse - tax rates are outside the digital lending / KYC corpus."
+  source: ""
+  should_refuse: true
+
+- question: "What is the GST rate on financial services?"
+  expected: "Refuse - GST is outside the digital lending / KYC corpus."
+  source: ""
+  should_refuse: true
+
+- question: "What is the procedure to register a new company under the Companies Act?"
+  expected: "Refuse - company registration procedure is outside the digital lending / KYC corpus."
   source: ""
   should_refuse: true
