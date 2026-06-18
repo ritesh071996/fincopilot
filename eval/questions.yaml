@@ -1,0 +1,27 @@
+# FinCopilot evaluation set
+#
+# These are the questions we measure the system against (see docs/01-goals.md).
+# Write ~20 real questions answerable from the RBI corpus. Each needs:
+#   - question:       what a compliance officer would actually ask
+#   - expected:       the correct answer (short, in your own words)
+#   - source:         the exact document/section that supports it (the citation)
+#   - should_refuse:  true for questions NOT answerable from the corpus
+#                     (we MUST get refusals right — see the metrics table)
+#
+# Fill this in during Week 0-1. Examples below show the shape.
+
+- question: "Does a lender need a written agreement with a Lending Service Provider (LSP)?"
+  expected: "Yes — the RBI Digital Lending Guidelines require a contractual/outsourcing agreement governing the LSP arrangement."
+  source: "RBI Digital Lending Guidelines"
+  should_refuse: false
+
+- question: "Can loan disbursals be routed through the LSP's bank account?"
+  expected: "No — disbursals must flow directly between the borrower's and the Regulated Entity's accounts, not through the LSP/pool account."
+  source: "RBI Digital Lending Guidelines"
+  should_refuse: false
+
+# Example of an out-of-scope question we must REFUSE (not in the corpus):
+- question: "What is the current repo rate?"
+  expected: "Refuse — not answerable from the digital lending / KYC corpus."
+  source: ""
+  should_refuse: true

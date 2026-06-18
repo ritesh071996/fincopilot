@@ -1,0 +1,2 @@
+# The local Chroma vector index is written here by the ingest pipeline.
+# Gitignored — it's a generated artifact, rebuildable from the corpus.

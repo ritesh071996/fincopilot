@@ -1,0 +1,2 @@
+# Raw RBI PDFs go in this folder. See docs/03-corpus-checklist.md for the list.
+# Keep this .gitkeep so the empty folder exists; the PDFs themselves are gitignored.

@@ -1,0 +1,23 @@
+# --- Secrets ---
+.env
+
+# --- Python ---
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# --- Data artifacts (rebuildable / large / not ours to redistribute) ---
+data/corpus/*.pdf
+data/vectorstore/*
+!data/**/.gitkeep
+
+# --- IDE / OS ---
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
