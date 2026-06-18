@@ -1,4 +1,5 @@
 # FinCopilot
+https://fincopilotgit-gyyhbhj6a2qgusyzh5qdop.streamlit.app/
 
 A document-grounded **financial compliance & research copilot**. Ask a question
 about Indian financial regulation → get a **cited**, evidence-grounded answer
