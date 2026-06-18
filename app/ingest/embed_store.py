@@ -35,6 +35,19 @@ def build_index(chunks: list[Document]) -> Chroma:
         persist_directory=str(VECTORSTORE_DIR)
     )
 
+def ensure_index() -> Chroma:
+    """Return the vector store, building it from the corpus if it's empty.
+
+    On a fresh deploy (e.g. Streamlit Cloud) the index doesn't exist yet, so we
+    build it once from the committed PDFs. Locally it already exists, so this is
+    a no-op.
+    """
+    vs = get_vectorstore()
+    if vs._collection.count() == 0:
+        vs = build_index(chunk_pages(load_corpus()))
+    return vs
+
+
 if __name__ == "__main__":
     chunks = chunk_pages(load_corpus())
     print(f"embedding {len(chunks)} chunks ...")

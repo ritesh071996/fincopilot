@@ -5,15 +5,16 @@ change models and providers without editing the app (that's the whole point of
 the LLM Gateway).
 """
 
-# Load HuggingFace models from the local cache only — never over the network.
-# On this Windows machine an SSL call AFTER torch is loaded segfaults (a torch
-# DLL clash), so embeddings MUST load offline. Models are pre-downloaded once
-# via huggingface_hub (without torch). See PROJECT-MEMORY.md. Set before any
-# HuggingFace import happens.
+# On Windows, an SSL call AFTER torch is loaded segfaults (a torch DLL clash),
+# so embeddings load from a pre-cached model fully OFFLINE. On Linux (e.g.
+# Streamlit Cloud) the model isn't cached, so we must let it download — hence we
+# only force offline on Windows. Set before any HuggingFace import happens.
 import os
+import sys
 
-os.environ.setdefault("HF_HUB_OFFLINE", "1")
-os.environ.setdefault("TRANSFORMERS_OFFLINE", "1")
+if sys.platform == "win32":
+    os.environ.setdefault("HF_HUB_OFFLINE", "1")
+    os.environ.setdefault("TRANSFORMERS_OFFLINE", "1")
 
 from pathlib import Path
 

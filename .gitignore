@@ -11,8 +11,9 @@ __pycache__/
 .mypy_cache/
 .ruff_cache/
 
-# --- Data artifacts (rebuildable / large / not ours to redistribute) ---
-data/corpus/*.pdf
+# --- Data artifacts ---
+# Corpus PDFs ARE committed (public RBI docs) so the cloud app can build its
+# index on first run. The vector index itself is rebuilt at startup, so ignore it.
 data/vectorstore/*
 !data/**/.gitkeep
 
